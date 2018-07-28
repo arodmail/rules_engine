@@ -1,0 +1,16 @@
+<ContentTypeRuleTemplate>
+	<name>SequencedRuleTemplate</name>
+	<template><![CDATA[
+		if ( (this.class == '$class1$') && (this.view_id == $view1$) ) 
+		   $PrimitiveSet: {   
+		      && (this.alertstart - $time_duration$ >= lookup.alerts_external.class('$it.class2$').view_id($it.view2$).alertstart) 
+		      && (this.alertstart - $time_duration$ >= lookup.alerts_external.class('$it.class3$').view_id($it.view3$).alertstart) 
+		      && (this.alertstart > lookup.alerts_external.class('$it.class2$').view_id($it.view2$).alertstart) 
+		      && (lookup.alerts_external.class('$it.class2$').view_id($it.view2$).alertstart > lookup.alerts_external.class('$it.class3$').view_id($it.view3$).alertstart) 
+		    };separator="\n"$
+		 then 
+		  sendMail('$to$', '$subject$')
+	]]></template>
+	<applicator>org.cep.rulesengine.template.SequencedRuleApplicator</applicator>
+	<stylesheet>/stylesheets/sequenced-rule.xsl</stylesheet>
+</ContentTypeRuleTemplate>

@@ -1,0 +1,25 @@
+<ContentTypeRule>
+  <name>Sequenced Compound Alert Rule</name>
+  <description>Content Type Rule Describing a Sequenced Compound Alert</description>
+  <target>alerts_external</target>
+  <statement><![CDATA[ if ( 
+		( (this.identity == 'tripwire') & (this.view_id == 101) )             
+			& (this.alertStart - 15s >= lookup.alerts_external.identity('objectremoval').view_id(102).alertStart)       
+			& (this.alertStart - 15s >= lookup.alerts_external.identity('speeding').view_id(103).alertStart)       
+			& (this.alertStart > lookup.alerts_external.identity('objectremoval').view_id(102).alertStart)       
+			& (lookup.alerts_external.identity('objectremoval').view_id(102).alertStart > lookup.alerts_external.identity('speeding').view_id(103).alertStart)      
+	) 
+		then   
+			sendMail('', '') ]]></statement>
+  <status>1</status>
+  <metadata>
+    <![CDATA[
+      <rule-meta>
+        <property>
+          <name>schedule</name>
+          <value>daily</value>
+        </property>
+      </rule-meta>
+    ]]>
+  </metadata>
+</ContentTypeRule>

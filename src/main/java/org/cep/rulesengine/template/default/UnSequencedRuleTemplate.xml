@@ -1,0 +1,14 @@
+<ContentTypeRuleTemplate>
+	<name>UnSequencedRuleTemplate</name>
+	<template><![CDATA[
+	if ( $Permutations:{ 
+		 ( (this.class == '$it.class1$') && (this.view_id == $it.view1$) )
+		       && (this.alertStart - $time_duration$ >= lookup.alerts_external.class('$it.class2$').view_id($it.view2$).alertStart)
+		       && (this.alertStart - $time_duration$ >= lookup.alerts_external.class('$it.class3$').view_id($it.view3$).alertStart) )
+		   };separator="\n || \n"$
+	then 
+		sendMail('$to$', '$subject$')
+	]]></template>
+	<applicator>org.cep.rulesengine.template.UnSequencedRuleApplicator</applicator>
+	<stylesheet>/stylesheets/un-sequenced-rule.xsl</stylesheet>
+</ContentTypeRuleTemplate>

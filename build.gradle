@@ -1,0 +1,16 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'javax.servlet:servlet-api:2.5'
+    compile group: 'org.antlr', name: 'antlr', version: '3.2'
+    compile group: 'javax.mail', name: 'mail', version: '1.4'
+}
+

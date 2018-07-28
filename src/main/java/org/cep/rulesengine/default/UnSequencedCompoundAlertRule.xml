@@ -1,0 +1,44 @@
+<ContentTypeRule>
+  <name>UnSequenced Compound Alert Rule</name>
+  <description>Content Type Rule Describing an UnSequenced Compound Alert</description>
+  <target>alerts_external</target>
+  <statement><![CDATA[ if (   ( ( (this.identity == 'tripwire') & (this.view_id == 101) )       
+		& (this.alertStart - 15s >= lookup.alerts_external.identity('objectremoval').view_id(102).alertStart)       
+		& (this.alertStart - 15s >= lookup.alerts_external.identity('speeding').view_id(103).alertStart) )
+ | 
+  ( ( (this.identity == 'tripwire') & (this.view_id == 101) )       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('speeding').view_id(103).alertStart)       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('objectremoval').view_id(102).alertStart) )   
+ | 
+  ( ( (this.identity == 'objectremoval') & (this.view_id == 102) )       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('tripwire').view_id(101).alertStart)       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('speeding').view_id(103).alertStart) )
+ | 
+  ( ( (this.identity == 'objectremoval') & (this.view_id == 102) )       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('speeding').view_id(103).alertStart)       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('tripwire').view_id(101).alertStart) )
+ | 
+  ( ( (this.identity == 'speeding') & (this.view_id == 103) )       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('tripwire').view_id(101).alertStart)       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('objectremoval').view_id(102).alertStart) )   
+ | 
+  ( ( (this.identity == 'speeding') & (this.view_id == 103) )       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('objectremoval').view_id(102).alertStart)       
+		  & (this.alertStart - 15s >= lookup.alerts_external.identity('tripwire').view_id(101).alertStart) )
+  )
+then        
+    sendMail('', '')
+
+ ]]></statement>
+  <status>1</status>
+  <metadata>
+    <![CDATA[
+      <rule-meta>
+        <property>
+          <name>schedule</name>
+          <value>daily</value>
+        </property>
+      </rule-meta>
+    ]]>
+  </metadata>
+</ContentTypeRule>
